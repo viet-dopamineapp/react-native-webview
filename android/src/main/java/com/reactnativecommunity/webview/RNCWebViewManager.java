@@ -787,15 +787,6 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
     mWebChromeClient = null;
   }
 
-  @Override
-  public boolean onCheckIsTextEditor() {
-      if (Looper.myLooper() == Looper.getMainLooper()) {
-         return super.onCheckIsTextEditor();
-      } else {
-         return false;
-      }
-  }
-
   public static RNCWebViewModule getModule(ReactContext reactContext) {
     return reactContext.getNativeModule(RNCWebViewModule.class);
   }
@@ -1567,6 +1558,15 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
     @Override
     public void onHostDestroy() {
       cleanupCallbacksAndDestroy();
+    }
+
+    @Override
+    public boolean onCheckIsTextEditor() {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+           return super.onCheckIsTextEditor();
+        } else {
+           return false;
+        }
     }
 
     @Override
