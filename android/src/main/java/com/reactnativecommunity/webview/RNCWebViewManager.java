@@ -102,6 +102,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
+import android.os.Looper;
 
 /**
  * Manages instances of {@link WebView}
@@ -784,6 +785,15 @@ public class RNCWebViewManager extends SimpleViewManager<WebView> {
     ((ThemedReactContext) webView.getContext()).removeLifecycleEventListener((RNCWebView) webView);
     ((RNCWebView) webView).cleanupCallbacksAndDestroy();
     mWebChromeClient = null;
+  }
+
+  @Override
+  public boolean onCheckIsTextEditor() {
+      if (Looper.myLooper() == Looper.getMainLooper()) {
+         return super.onCheckIsTextEditor();
+      } else {
+         return false;
+      }
   }
 
   public static RNCWebViewModule getModule(ReactContext reactContext) {
